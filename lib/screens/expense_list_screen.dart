@@ -73,6 +73,25 @@ class ExpenseListScreen extends StatelessWidget {
         description: 'Ongkos perjalanan harian ke kampus',
       ),
     ];
+    // Mendapatkan hanya pengeluaran makanan (Dengan where())
+    List<Expense> foodExpenses = expenses
+        .where((expense) => expense.category.toLowerCase() == 'makanan')
+        .toList();
+
+    // Mendapatkan pengeluaran di atas 100.000 (Dengan where())
+    List<Expense> expensiveItems = expenses
+        .where((expense) => expense.amount > 100000)
+        .toList();
+
+    // Mendapatkan hanya judul-judul pengeluaran (Dengan map())
+    List<String> titles = expenses
+        .map((expense) => expense.title)
+        .toList();
+
+    // Mendapatkan informasi ringkas (Dengan map())
+    List<String> summaries = expenses
+        .map((expense) => '${expense.title}: ${expense.formattedAmount}')
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
