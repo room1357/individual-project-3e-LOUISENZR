@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/expense.dart';
+import 'package:collection/collection.dart';
+
 
 class ExpenseListScreen extends StatelessWidget {
   const ExpenseListScreen({super.key});
@@ -73,6 +75,20 @@ class ExpenseListScreen extends StatelessWidget {
         description: 'Ongkos perjalanan harian ke kampus',
       ),
     ];
+    //Grouping with groupBy
+    Map<String, List<Expense>> groupedByCategory = groupBy(
+        expenses,
+            (expense) => expense.category
+    );
+
+    // Sorting Urutkan berdasarkan jumlah (besar ke kecil)
+    List<Expense> sortedByAmount = [...expenses]
+      ..sort((a, b) => b.amount.compareTo(a.amount));
+
+    // Sorting Urutkan berdasarkan tanggal (terbaru ke terlama)
+    List<Expense> sortedByDate = [...expenses]
+      ..sort((a, b) => b.date.compareTo(a.date));
+
     // Mendapatkan hanya pengeluaran makanan (Dengan where())
     List<Expense> foodExpenses = expenses
         .where((expense) => expense.category.toLowerCase() == 'makanan')
