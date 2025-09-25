@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'expense_list_screen.dart';
+import 'profile_screen.dart';
+import 'setting_screen.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -64,14 +67,20 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.person),
               title: Text('Profil'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Pengaturan'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                );
               },
             ),
             Divider(),
