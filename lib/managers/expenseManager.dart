@@ -1,7 +1,41 @@
 import '../models/expense.dart';
 
 class ExpenseManager {
-  static List<Expense> expenses = [/* data expenses */];
+  static List<Expense> _expenses = []; // gunakan _expenses (private) biar konsisten
+
+  static void initializeSampleData() {
+    _expenses = [
+      Expense(
+        id: '1',
+        title: 'Makan Siang',
+        description: 'Nasi goreng + es teh',
+        amount: 25000,
+        category: 'Makanan',
+        date: DateTime.now(),
+      ),
+      Expense(
+        id: '2',
+        title: 'Bensin',
+        description: 'Isi Pertalite',
+        amount: 50000,
+        category: 'Transportasi',
+        date: DateTime.now(),
+      ),
+      Expense(
+        id: '3',
+        title: 'Netflix',
+        description: 'Langganan bulanan',
+        amount: 55000,
+        category: 'Hiburan',
+        date: DateTime.now(),
+      ),
+    ];
+  }
+
+  // Ambil semua data
+  static List<Expense> getAllExpenses() {
+    return _expenses;
+  }
 
   // 1. Mendapatkan total pengeluaran per kategori
   static Map<String, double> getTotalByCategory(List<Expense> expenses) {
