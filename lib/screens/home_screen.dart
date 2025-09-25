@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
+import 'expense_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -7,12 +9,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Beranda'),
         backgroundColor: Colors.blue,
         actions: [
           IconButton(
             onPressed: () {
-              // Handle logout
+              // Logout dengan pushAndRemoveUntil
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    (route) => false, // Hapus semua route sebelumnya
+              );
             },
             icon: Icon(Icons.logout),
           ),
@@ -36,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Welcome User!',
+                    'Selamat datang pengguna!',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -48,21 +55,21 @@ class HomeScreen extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home'),
+              title: Text('Beranda'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
               leading: Icon(Icons.person),
-              title: Text('Profile'),
+              title: Text('Profil'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              title: Text('Pengaturan'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -73,6 +80,11 @@ class HomeScreen extends StatelessWidget {
               title: Text('Logout'),
               onTap: () {
                 // Handle logout
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      (route) => false,
+                );
               },
             ),
           ],
@@ -98,10 +110,13 @@ class HomeScreen extends StatelessWidget {
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 children: [
-                  _buildDashboardCard('Profile', Icons.person, Colors.green),
-                  _buildDashboardCard('Messages', Icons.message, Colors.orange),
-                  _buildDashboardCard('Settings', Icons.settings, Colors.purple),
-                  _buildDashboardCard('Help', Icons.help, Colors.red),
+                  _buildDashboardCard(
+                      'Profile', Icons.person, Colors.green, null),
+                  _buildDashboardCard(
+                      'Messages', Icons.message, Colors.orange, null),
+                  _buildDashboardCard(
+                      'Settings', Icons.settings, Colors.purple, null),
+                  _buildDashboardCard('Help', Icons.help, Colors.red, null),
                 ],
               ),
             ),
@@ -111,30 +126,36 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDashboardCard(String title, IconData icon, Color color) {
+  Widget _buildDashboardCard(String title, IconData icon, Color color,
+      VoidCallback? onTap) {
     return Card(
       elevation: 4,
-      child: InkWell(
-        onTap: () {
-          // Handle card tap
-        },
-        child: Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 48, color: color),
-              SizedBox(height: 12),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+      child: Builder(
+        builder: (context) =>
+            InkWell(
+              onTap: onTap ?? () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Fitur $title segera hadir!')),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, size: 48, color: color),
+                    SizedBox(height: 12),
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
       ),
     );
   }
